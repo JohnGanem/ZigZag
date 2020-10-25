@@ -1,0 +1,14 @@
+{
+    "name": "johnganem/zigzag",
+    "description": "Discord bot for La Forge Eve Corporation",
+    "type": "project",
+    "require": {
+        "team-reflex/discord-php": "^5.0",
+        "vlucas/phpdotenv": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZigZag\\": "src"
+        }
+    }
+}
