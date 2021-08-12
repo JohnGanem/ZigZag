@@ -4,6 +4,7 @@ namespace ZigZag;
 
 use Discord\Discord;
 use Discord\Parts\User\Activity;
+use Discord\WebSockets\Event;
 use ZigZag\Actions\Recruitment;
 
 class Initialisation
@@ -19,6 +20,10 @@ class Initialisation
         $this->botId = $_ENV['BOT_ID'];
         $this->discord = new Discord([
             'token' => $_ENV['BOT_TOKEN'],
+            'socket_options' => [
+                'dns' => '1.1.1.2', // can change dns
+            ],
+
         ]);
         $this->activityType = $_ENV['ACTIVITY_TYPE'];
         $this->activityName = $_ENV['ACTIVITY_NAME'];
@@ -30,9 +35,9 @@ class Initialisation
 
             $this->updatePresence();
 
-            $this->discord->on('message', function ($message, $discord) {
+            $this->discord->on(Event::MESSAGE_CREATE, function ($message, $discord) {
                 if (in_array($message->content, Recruitment::WORD_DETECTION)) {
-                    Recruitment::actions($message);
+                    Recruitment::actions($discord, $message);
                 }
             });
         });
