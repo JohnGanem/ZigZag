@@ -18,6 +18,8 @@ class Recruitment
 
         $name = strtolower(str_replace(' ', '-', $name));
 
+        print("Nouveau recrutement : {$name}\n");
+
         $guildId = $message->channel->guild_id;
         $guild = $discord->guilds->get('id', $guildId);
         // $guild->createRole([
