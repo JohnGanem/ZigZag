@@ -22,9 +22,7 @@ class Recruitment
 
         $guildId = $message->channel->guild_id;
         $guild = $discord->guilds->get('id', $guildId);
-        // $guild->createRole([
-        //     'name' => "recrutement-{$nickname}"
-        // ]);
+
         $channel = $guild->channels->create([
             'name' => "recrutement-{$name}",
             'type' => 0,
@@ -45,5 +43,6 @@ class Recruitment
                 "4) Quels sont tes horaires de jeu ? A quelles heures es-tu le plus souvent connecté ?\n" .
                 "5) Comment te décris-tu ? Quel est ton caractère ?\n");
         });
+        $message->delete();
     }
 }
