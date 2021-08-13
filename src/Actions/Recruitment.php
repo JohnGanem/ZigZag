@@ -16,7 +16,7 @@ class Recruitment
         $member = $message->author;
         $name = ($member->nick == "") ? $member->username : $member->nick;
 
-        $name = strtolower(str_replace(' ', '-', $name));
+        $name =  strtolower(str_replace(' ', '-', $name));
 
         print("Nouveau recrutement : {$name}\n");
 
@@ -26,10 +26,11 @@ class Recruitment
         $channel = $guild->channels->create([
             'name' => "recrutement-{$name}",
             'type' => 0,
-            'parent_id' => $_ENV['RECRUITMENT_CHANNEL_ID'],
+            'parent_id' => $_ENV['RECRUITMENT_CATEGORIE_ID'],
             'is_private' => true
         ]);
-        $guild->channels->save($channel)->done(function ($channel) use ($member) {
+
+        $guild->channels->save($channel)->done(function ($channel) use ($member, $guild) {
             $channel->setPermissions($member, [
                 'send_messages',
                 'view_channel',
@@ -42,7 +43,11 @@ class Recruitment
                 "3) As-tu déjà PvP auparavant ? Quels sont les ships que tu aimes piloter ?\n" .
                 "4) Quels sont tes horaires de jeu ? A quelles heures es-tu le plus souvent connecté ?\n" .
                 "5) Comment te décris-tu ? Quel est ton caractère ?\n");
+            $guild->channels->fetch($_ENV['NOTIFICATIONS_CHANNEL_ID'])->done(function ($notifChannel) use ($channel) {
+                $notifChannel->sendMessage("@everyone Une nouvelle recrue est arrivée, n'hésitez pas à intervenir ! <#{$channel->id}>");
+            });
         });
+
         $message->delete();
     }
 }
