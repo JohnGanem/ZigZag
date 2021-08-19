@@ -44,7 +44,7 @@ class Recruitment
                 "4) Quels sont tes horaires de jeu ? A quelles heures es-tu le plus souvent connecté ?\n" .
                 "5) Comment te décris-tu ? Quel est ton caractère ?\n");
             $guild->channels->fetch($_ENV['NOTIFICATIONS_CHANNEL_ID'])->done(function ($notifChannel) use ($channel) {
-                $notifChannel->sendMessage("@everyone Une nouvelle recrue est arrivée, n'hésitez pas à intervenir ! <#{$channel->id}>");
+                $notifChannel->sendMessage("@here Une nouvelle recrue est arrivée, n'hésitez pas à intervenir ! <#{$channel->id}>");
             });
         });
 
