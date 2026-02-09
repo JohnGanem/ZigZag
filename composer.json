@@ -3,7 +3,7 @@
     "description": "Discord bot for La Forge Eve Corporation",
     "type": "project",
     "require": {
-        "team-reflex/discord-php": "^5.0",
+        "team-reflex/discord-php": "^10",
         "vlucas/phpdotenv": "^5.2"
     },
     "autoload": {

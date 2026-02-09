@@ -9,9 +9,9 @@ class TransferMessages
         if($_ENV['NEED_AUTHOR_ID'] && $_ENV['NEED_AUTHOR_ID'] != $message->author->id) {
             return;
         }
-        // stuff it into a query
-        $query = http_build_query($message);
-        // curl my data into the zap
+
+        $query = ["message" => $message->content];
+
         $ch = curl_init($_ENV['WEBHOOK_URL']);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $query);

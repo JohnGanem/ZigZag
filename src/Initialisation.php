@@ -5,6 +5,9 @@ namespace ZigZag;
 use Discord\Discord;
 use Discord\Parts\User\Activity;
 use Discord\WebSockets\Event;
+use Discord\WebSockets\Intents;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use ZigZag\Actions\Recruitment;
 use ZigZag\Actions\TransferMessages;
 
@@ -20,13 +23,17 @@ class Initialisation
 
     public function __construct()
     {
+        $logger = new Logger('DiscordPHP');
+        $logger->pushHandler(new StreamHandler('php://stdout', \Monolog\Level::Info));
+
         $this->botId = $_ENV['BOT_ID'];
         $this->discord = new Discord([
             'token' => $_ENV['BOT_TOKEN'],
             'socket_options' => [
-                'dns' => '1.1.1.2', // can change dns
+                'dns' => '1.1.1.2' // can change dns
             ],
-
+            'logger' => $logger,
+            'intents' => Intents::getDefaultIntents() | Intents::MESSAGE_CONTENT
         ]);
         $this->activityType = $_ENV['ACTIVITY_TYPE'];
         $this->activityName = $_ENV['ACTIVITY_NAME'];
